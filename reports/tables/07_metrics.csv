@@ -1,0 +1,10 @@
+mae,0.0202995
+rmse,0.0339421
+ic_in_sample,0.0607411
+final_cost_gd,0.000576035
+bias_gd,0.00106863
+bias_closed_form,0.00106863
+max_abs_weight_gap_vs_closed_form,3.30758e-07
+lr,0.2
+n_epochs,5000
+n_rows,27460

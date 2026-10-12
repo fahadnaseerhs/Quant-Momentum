@@ -1,0 +1,4 @@
+forecaster,qlike,qlike_improvement_vs_ewma,log_mse,within_asset_r2_log,bias_log,dm_t_vs_ewma,n_nonoverlap_dates
+EWMA,0.3325,0.0000,0.1309,0.3598,0.0322,,256
+HAR,0.3165,0.0479,0.1253,0.3872,0.0500,2.1401,256
+HAR-L,0.3149,0.0528,0.1245,0.3911,0.0498,2.8518,256

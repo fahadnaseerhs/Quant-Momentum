@@ -1,0 +1,50 @@
+# Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode & caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+prof
+*.prof
+*.pstats
+.dist/
+dist/
+build/
+*.egg-info/
+
+# Jupyter output & checkpoints
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# QM Terminal secrets, local portfolio & caches
+.env
+.streamlit/secrets.toml
+terminal/cache/
+terminal/portfolio.json
+terminal/portfolio_backup_*.json
+
+# Data — never commit market data dumps or large parquet panels
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/features/*
+!data/features/.gitkeep
+data/long/*
+!data/long/.gitkeep
+data/etf/*
+!data/etf/.gitkeep
+data/sp500/*
+!data/sp500/.gitkeep

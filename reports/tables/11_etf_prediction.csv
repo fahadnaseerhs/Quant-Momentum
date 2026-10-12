@@ -1,0 +1,3 @@
+signal,ic_oos,ic_nonoverlap,t_nonoverlap,hit_rate,always_long_hit
+model,0.0080,0.0096,0.7341,0.5419,0.6050
+rule,0.0198,-0.0015,-0.1145,0.5435,0.6050

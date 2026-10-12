@@ -1,0 +1,33 @@
+Task 05 — Signal Analysis
+Run at   : 2026-10-04T19:06:56
+Features : C:\Users\USER\OneDrive\Desktop\Quant_ Momentum\data\features\features.parquet
+Shape    : (28780, 17)
+Date     : 2021-01-04 -> 2026-09-25
+Tickers  : 20
+
+Top whole-universe signals by |NW t-stat|:
+      feature    horizon   mean_ic  nw_tstat  hit_rate  ls_spread_q5_q1  n_days
+vol_ratio_20d fwd_ret_3d  0.026287  2.376473  0.531404         0.006653    1417
+vol_ratio_20d fwd_ret_1d  0.012777  1.659252  0.504581         0.002852    1419
+      mom_21d fwd_ret_1d  0.014538  1.573670  0.513761         0.003347    1417
+   relret_21d fwd_ret_1d  0.014433  1.562917  0.513761         0.003337    1417
+      mom_21d fwd_ret_3d  0.020083  1.409730  0.516608         0.008810    1415
+   relret_21d fwd_ret_3d  0.019991  1.403271  0.515901         0.008835    1415
+     vsmom_5d fwd_ret_3d -0.007897 -0.615430  0.492341         0.001920    1371
+   relret_63d fwd_ret_3d  0.009761  0.596309  0.497451         0.003930    1373
+      mom_63d fwd_ret_3d  0.009741  0.595077  0.497451         0.004042    1373
+    vsmom_10d fwd_ret_1d -0.005056 -0.583410  0.490168         0.001159    1373
+    vsmom_63d fwd_ret_1d  0.005306  0.572793  0.494538         0.000956    1373
+    vsmom_21d fwd_ret_3d  0.007136  0.559928  0.504012         0.006698    1371
+   relret_63d fwd_ret_1d  0.005892  0.558811  0.501091         0.001336    1375
+      mom_63d fwd_ret_1d  0.005813  0.551110  0.501091         0.001357    1375
+     vsmom_5d fwd_ret_1d -0.004408 -0.513187  0.494538         0.000849    1373
+
+Leakage shift test (feature shifted -1 day):
+   feature    horizon  mean_ic_baseline  mean_ic_future_leak  mean_ic_past_only
+   mom_21d fwd_ret_1d          0.014538             0.173577          -0.000482
+   mom_21d fwd_ret_3d          0.020083             0.117111           0.002040
+ vsmom_21d fwd_ret_1d          0.002780             0.163392           0.004486
+ vsmom_21d fwd_ret_3d          0.007136             0.102525           0.012790
+relret_21d fwd_ret_1d          0.014433             0.173581          -0.000467
+relret_21d fwd_ret_3d          0.019991             0.117013           0.002038

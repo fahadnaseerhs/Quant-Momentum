@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+
+:root { --amber:#FFA028; --orange:#FB8B1E; --bg:#000; --panel:#060606; --line:#262626;
+        --txt:#E6E6E6; --dim:#8A8A8A; --up:#19D27F; --down:#FF433D; --blue:#3A8DFF; }
+
+html, body, [class*="css"], .stApp, .stMarkdown, p, div, span, td, th, label, input, button, select {
+  font-family: 'IBM Plex Mono', Consolas, 'Courier New', monospace !important; }
+[data-testid="stIconMaterial"] { font-family: 'Material Symbols Rounded' !important; }   /* keep Streamlit's icons */
+.stApp { background: var(--bg); }
+header[data-testid="stHeader"], footer, #MainMenu, [data-testid="stToolbar"], [data-testid="stDecoration"] { display:none !important; }
+.block-container { padding: 0.4rem 0.8rem 1rem 0.8rem !important; max-width: 100% !important; }
+[data-testid="stVerticalBlock"] { gap: 0.35rem; }
+/* Streamlit gives the last markdown child a negative bottom margin, which makes the next
+   element slide up over it (the "invisible section" overlap). Cancel it everywhere. */
+[data-testid="stMarkdownContainer"] > *:last-child,
+[data-testid="stMarkdownContainer"] > div:last-child > *:last-child,
+[data-testid="stMarkdownContainer"] { margin-bottom: 0 !important; }
+[data-testid="stMarkdown"], [data-testid="stMarkdownContainer"] { overflow: visible; min-width: 0; }
+[data-testid="stColumn"], [data-testid="column"] { min-width: 0 !important; }
+[data-testid="stPlotlyChart"] { margin-bottom: 4px; }
+
+/* top bar + tape */
+.qm-top { display:flex; flex-wrap:wrap; gap:4px 16px; justify-content:space-between; align-items:center; background:#0b0b0b;
+          border-bottom:2px solid var(--amber); padding:4px 8px; font-size:13px; color:var(--amber); }
+.qm-top b { color:#000; background:var(--amber); padding:1px 10px; letter-spacing:2px; white-space:nowrap; }
+.qm-top .dim { color:var(--dim); }
+.qm-live { color:var(--up); }
+.qm-tape { overflow:hidden; white-space:nowrap; border-bottom:1px solid var(--line); background:#030303; padding:3px 0; }
+.qm-tape-inner { display:inline-block; padding-left:100%; animation: qm-scroll 90s linear infinite; font-size:12px; }
+.qm-tape span.it { margin-right:28px; color:var(--txt); }
+@keyframes qm-scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+/* panels */
+.qm-panel { border:1px solid var(--line); background:var(--panel); margin-bottom:8px; overflow:hidden; }
+.qm-h { display:flex; justify-content:space-between; align-items:center; gap:8px; background:var(--amber); color:#000;
+        font-weight:700; font-size:12px; letter-spacing:1px; padding:2px 6px; line-height:1.5; }
+.qm-h > span:first-child { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.qm-h > span:last-child { flex-shrink:0; white-space:nowrap; }
+.qm-h .tag { font-weight:700; padding:0 4px; }
+.qm-body { padding:4px 6px; font-size:12px; color:var(--txt); line-height:1.45; }
+.qm-scroll { overflow-x:auto; }
+.qm-two { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; }
+table.qm-t { width:100%; border-collapse:collapse; font-size:12px; margin:0; }
+table.qm-t td, table.qm-t th { padding:3px 3px; border-bottom:1px solid #141414; white-space:nowrap; vertical-align:middle; }
+table.qm-t th { color:var(--amber); font-weight:500; text-align:left; border-bottom:1px solid var(--line); }
+table.qm-t td.nm { white-space:normal; line-height:1.25; min-width:80px; }
+table.qm-t td.barcell { width:14%; min-width:30px; }
+.qm-t .r { text-align:right; } .qm-t .c { text-align:center; }
+.up { color:var(--up); } .down { color:var(--down); } .dim { color:var(--dim); } .amb { color:var(--amber); }
+.qm-bar { position:relative; height:8px; background:#151515; min-width:28px; }
+.qm-bar i { position:absolute; left:0; top:0; bottom:0; }
+.qm-bar u { position:absolute; top:-2px; bottom:-2px; width:2px; background:#E6E6E6; text-decoration:none; }
+.qm-stack { display:block; position:relative; clear:both; padding-top:2px; }
+.qm-caption { display:block; font-size:11px; line-height:1.4; margin:0 0 6px 0; }
+
+/* weather + gauges */
+.qm-weather { border:1px solid var(--line); padding:6px 8px; font-size:14px; color:var(--amber); background:#050505;
+              line-height:1.45; overflow-wrap:anywhere; }
+.qm-weather .big { font-size:17px; font-weight:700; }
+.qm-gauges { display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:6px; }
+.qm-g { border:1px solid var(--line); padding:5px 7px; font-size:12px; background:var(--panel); line-height:1.4; min-width:0; }
+.qm-g .n { color:var(--dim); } .qm-g .s { font-weight:700; font-size:14px; }
+
+/* alerts + news */
+.qm-alert { display:flex; align-items:baseline; gap:6px; font-size:12px; padding:3px 0; border-bottom:1px solid #141414; line-height:1.4; }
+.qm-alert > span:first-child { flex-shrink:0; }
+.qm-alert .qm-pill { flex-shrink:0; margin-right:0; }
+.qm-alert .txt { min-width:0; overflow-wrap:anywhere; }
+.qm-pill { display:inline-block; padding:0 5px; margin-right:4px; font-size:11px; line-height:1.5; border:1px solid var(--line); color:var(--amber); white-space:nowrap; }
+.qm-brief { border-left:3px solid var(--amber); padding:6px 10px; margin:2px 0 6px 0; color:var(--txt); font-size:13px; line-height:1.5; background:#070707; }
+a.qm-news { display:block; padding:6px 6px; border-bottom:1px solid #161616; color:var(--txt) !important;
+            text-decoration:none !important; transition:background .15s ease, border-color .15s ease; border-left:2px solid transparent; }
+a.qm-news:hover { background:#101010; border-left-color:var(--amber); }
+a.qm-news .t { font-size:13px; line-height:1.4; overflow-wrap:anywhere; }
+a.qm-news .t::after { content:" ↗"; color:var(--dim); }
+a.qm-news:hover .t { color:var(--amber); }
+a.qm-news .meta { display:flex; flex-wrap:wrap; align-items:center; gap:4px; margin-top:3px; font-size:11px; color:var(--dim); }
+a.qm-news .meta .qm-pill { margin-right:0; }
+
+/* statement boxes (top of each tab) */
+.qm-say { border:1px solid var(--line); border-left:3px solid var(--amber); background:#050505; margin:4px 0 6px 0; }
+.qm-say .k { display:flex; justify-content:space-between; gap:8px; color:var(--amber); font-size:11px; font-weight:700;
+             letter-spacing:1px; padding:3px 8px 0 8px; }
+.qm-say .k span:last-child { color:var(--dim); font-weight:400; letter-spacing:0; text-align:right; }
+.qm-say ul { list-style:none; margin:0; padding:2px 8px 6px 8px; }
+.qm-say li { font-size:13px; line-height:1.5; color:var(--txt); padding:2px 0 2px 14px; position:relative; overflow-wrap:anywhere; }
+.qm-say li::before { content:"›"; position:absolute; left:2px; color:var(--amber); }
+.qm-say b { color:#fff; }
+.qm-note { font-size:12px; color:var(--txt); padding:4px 2px 0 2px; }
+
+/* severity pills, day groups, trade cards */
+.qm-sev { display:inline-block; padding:0 5px; font-size:10px; font-weight:700; letter-spacing:1px; line-height:1.5;
+          border:1px solid; white-space:nowrap; flex-shrink:0; }
+.qm-alert { border-left:2px solid transparent; padding-left:6px; }
+.qm-day { display:flex; justify-content:space-between; color:var(--amber); font-size:11px; font-weight:700;
+          letter-spacing:1px; border-bottom:1px solid var(--line); padding:8px 0 2px 0; }
+.qm-day span:last-child { color:var(--dim); font-weight:400; }
+.qm-card { border:1px solid var(--line); border-left:3px solid var(--amber); background:var(--panel); padding:6px 10px;
+           margin:4px 0; font-size:12px; line-height:1.5; }
+.qm-card .t { font-size:14px; color:var(--txt); }
+[data-testid="stExpander"] details { border-radius:0 !important; border-color:var(--line) !important; background:#050505; }
+[data-testid="stExpander"] summary { color:var(--amber); font-size:12px; }
+
+/* streamlit widgets */
+.stTabs [data-baseweb="tab-list"] { gap:2px; border-bottom:1px solid var(--line); }
+.stTabs [data-baseweb="tab"] { background:#111; color:var(--amber); padding:2px 14px; height:28px; border-radius:0; font-size:12px; }
+.stTabs [aria-selected="true"] { background:var(--amber) !important; color:#000 !important; font-weight:700; }
+.stTabs [data-baseweb="tab-highlight"] { background:transparent; }
+div[data-baseweb="select"] > div, .stNumberInput input, .stTextInput input { background:#0d0d0d !important; border-radius:0 !important; }
+h1, h2, h3, h4 { color:var(--amber) !important; font-weight:700 !important; letter-spacing:1px; }

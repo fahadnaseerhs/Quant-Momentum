@@ -1,0 +1,12 @@
+candidate,1 IC>=0.01 & t>=2.6,2 design IC>0,3 top-quintile net excess t>=2,PASS
+S1 momentum 12-1,False,True,False,False
+S2 short-term reversal,False,True,False,False
+S3 low volatility,False,False,False,False
+S4 low beta,False,False,False,False
+S5 lottery (MAX),False,False,False,False
+S6 52-week high,False,False,False,False
+C1 z-average,False,True,False,False
+C2 ridge,False,False,False,False
+C3 boosted trees,False,True,True,False
+CONTROL shuffled momentum,False,True,False,False
+CONTROL random,False,True,False,False

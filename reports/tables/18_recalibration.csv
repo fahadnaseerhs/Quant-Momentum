@@ -1,0 +1,5 @@
+universe,version,bad_rate,bad_assets_pass,good_rate,good_assets_pass,typical_inside,typical_p,es_ratio,es_lo90,es_hi90,n
+PROJECT 20,BEFORE (step 1 method),0.0472,0.9500,0.0808,0.7000,0.6291,0.0001,1.0374,0.9777,1.1006,2413
+PROJECT 20,"AFTER (fixed, frozen)",0.0593,1.0000,0.0559,0.9500,0.6494,0.0731,0.9374,0.8853,0.9903,2413
+ETF 23,BEFORE (step 1 method),0.0391,0.8696,0.1200,0.2174,0.5945,0.0000,1.0235,0.9754,1.0725,2967
+ETF 23,"AFTER (fixed, frozen)",0.0570,0.8261,0.0741,0.7391,0.6545,0.1610,0.9845,0.9396,1.0291,2967

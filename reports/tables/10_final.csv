@@ -1,0 +1,19 @@
+strategy,period,sharpe,ann_ret,ann_vol,max_dd
+"long (daily, Task 07c)",design 2005-15,0.9133,0.0892,0.0977,-0.1973
+"long (daily, Task 07c)",HOLDOUT 2016-26,1.4787,0.1387,0.0938,-0.1675
+"long (daily, Task 07c)",full,1.1915,0.1141,0.0957,-0.1973
+long (every 5d),design 2005-15,0.9365,0.0916,0.0978,-0.1975
+long (every 5d),HOLDOUT 2016-26,1.5162,0.1439,0.0949,-0.1752
+long (every 5d),full,1.2232,0.1179,0.0963,-0.1975
+trend_model (every 5d),design 2005-15,0.5215,0.0384,0.0737,-0.1291
+trend_model (every 5d),HOLDOUT 2016-26,0.5298,0.0365,0.0688,-0.1347
+trend_model (every 5d),full,0.5253,0.0374,0.0713,-0.1347
+trend_rule (every 5d),design 2005-15,0.3747,0.0282,0.0753,-0.1432
+trend_rule (every 5d),HOLDOUT 2016-26,0.6546,0.0450,0.0688,-0.1348
+trend_rule (every 5d),full,0.5096,0.0367,0.0721,-0.1432
+combined 70% long + 30% trend,design 2005-15,0.9955,0.0759,0.0762,-0.1287
+combined 70% long + 30% trend,HOLDOUT 2016-26,1.5090,0.1113,0.0738,-0.1112
+combined 70% long + 30% trend,full,1.2501,0.0937,0.0750,-0.1287
+SPY,design 2005-15,0.4475,0.0911,0.2036,-0.5519
+SPY,HOLDOUT 2016-26,0.9664,0.1710,0.1769,-0.3372
+SPY,full,0.6875,0.1310,0.1905,-0.5519

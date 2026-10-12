@@ -1,0 +1,91 @@
+universe,family,period,group,brier_skill
+PROJECT 20,F1 macro trend,design,bonds,-0.0077
+PROJECT 20,F1 macro trend,design,commodities,-0.0222
+PROJECT 20,F1 macro trend,design,gold,-0.0179
+PROJECT 20,F1 macro trend,HOLDOUT,bonds,-0.0009
+PROJECT 20,F1 macro trend,HOLDOUT,commodities,-0.0017
+PROJECT 20,F1 macro trend,HOLDOUT,gold,-0.0018
+PROJECT 20,F2 panic rebound,design,energy stocks,-0.0282
+PROJECT 20,F2 panic rebound,design,other stocks,-0.0393
+PROJECT 20,F2 panic rebound,design,tech,-0.0234
+PROJECT 20,F2 panic rebound,HOLDOUT,energy stocks,-0.0091
+PROJECT 20,F2 panic rebound,HOLDOUT,other stocks,0.0090
+PROJECT 20,F2 panic rebound,HOLDOUT,tech,-0.0108
+PROJECT 20,F3 world regime,design,bonds,0.0030
+PROJECT 20,F3 world regime,design,crypto,0.0000
+PROJECT 20,F3 world regime,design,gold,-0.0422
+PROJECT 20,F3 world regime,design,oil,-0.0351
+PROJECT 20,F3 world regime,design,real_assets,-0.1012
+PROJECT 20,F3 world regime,design,tech,-0.0901
+PROJECT 20,F3 world regime,HOLDOUT,bonds,-0.0758
+PROJECT 20,F3 world regime,HOLDOUT,crypto,-0.0720
+PROJECT 20,F3 world regime,HOLDOUT,gold,-0.0294
+PROJECT 20,F3 world regime,HOLDOUT,oil,-0.0284
+PROJECT 20,F3 world regime,HOLDOUT,real_assets,-0.0199
+PROJECT 20,F3 world regime,HOLDOUT,tech,-0.0024
+PROJECT 20,F4 combined,design,bonds,-0.0445
+PROJECT 20,F4 combined,design,crypto,0.0000
+PROJECT 20,F4 combined,design,gold,-0.0958
+PROJECT 20,F4 combined,design,oil,-0.0973
+PROJECT 20,F4 combined,design,real_assets,-0.1215
+PROJECT 20,F4 combined,design,tech,-0.1219
+PROJECT 20,F4 combined,HOLDOUT,bonds,-0.0918
+PROJECT 20,F4 combined,HOLDOUT,crypto,-0.1253
+PROJECT 20,F4 combined,HOLDOUT,gold,-0.0342
+PROJECT 20,F4 combined,HOLDOUT,oil,-0.0398
+PROJECT 20,F4 combined,HOLDOUT,real_assets,-0.0229
+PROJECT 20,F4 combined,HOLDOUT,tech,-0.0157
+PROJECT 20,F5 boosted trees,design,bonds,-0.0150
+PROJECT 20,F5 boosted trees,design,crypto,0.0975
+PROJECT 20,F5 boosted trees,design,gold,-0.0587
+PROJECT 20,F5 boosted trees,design,oil,-0.0903
+PROJECT 20,F5 boosted trees,design,real_assets,-0.1612
+PROJECT 20,F5 boosted trees,design,tech,-0.1600
+PROJECT 20,F5 boosted trees,HOLDOUT,bonds,-0.0857
+PROJECT 20,F5 boosted trees,HOLDOUT,crypto,-0.0759
+PROJECT 20,F5 boosted trees,HOLDOUT,gold,-0.0666
+PROJECT 20,F5 boosted trees,HOLDOUT,oil,-0.0307
+PROJECT 20,F5 boosted trees,HOLDOUT,real_assets,-0.0331
+PROJECT 20,F5 boosted trees,HOLDOUT,tech,-0.0600
+ETF 23,F1 macro trend,design,bonds,-0.0146
+ETF 23,F1 macro trend,design,commodities,-0.0185
+ETF 23,F1 macro trend,design,gold,-0.0146
+ETF 23,F1 macro trend,HOLDOUT,bonds,-0.0014
+ETF 23,F1 macro trend,HOLDOUT,commodities,-0.0036
+ETF 23,F1 macro trend,HOLDOUT,gold,-0.0004
+ETF 23,F2 panic rebound,design,equity index,-0.0314
+ETF 23,F2 panic rebound,design,real estate,-0.0359
+ETF 23,F2 panic rebound,design,sector,-0.0255
+ETF 23,F2 panic rebound,HOLDOUT,equity index,-0.0196
+ETF 23,F2 panic rebound,HOLDOUT,real estate,-0.0018
+ETF 23,F2 panic rebound,HOLDOUT,sector,-0.0146
+ETF 23,F3 world regime,design,bond,-0.0630
+ETF 23,F3 world regime,design,commodity,-0.0352
+ETF 23,F3 world regime,design,equity index,-0.1439
+ETF 23,F3 world regime,design,real estate,-0.0730
+ETF 23,F3 world regime,design,sector,-0.1080
+ETF 23,F3 world regime,HOLDOUT,bond,-0.0285
+ETF 23,F3 world regime,HOLDOUT,commodity,-0.0482
+ETF 23,F3 world regime,HOLDOUT,equity index,-0.0041
+ETF 23,F3 world regime,HOLDOUT,real estate,-0.0360
+ETF 23,F3 world regime,HOLDOUT,sector,-0.0141
+ETF 23,F4 combined,design,bond,-0.1277
+ETF 23,F4 combined,design,commodity,-0.0475
+ETF 23,F4 combined,design,equity index,-0.1348
+ETF 23,F4 combined,design,real estate,-0.1020
+ETF 23,F4 combined,design,sector,-0.1322
+ETF 23,F4 combined,HOLDOUT,bond,-0.0476
+ETF 23,F4 combined,HOLDOUT,commodity,-0.0789
+ETF 23,F4 combined,HOLDOUT,equity index,-0.0308
+ETF 23,F4 combined,HOLDOUT,real estate,-0.0443
+ETF 23,F4 combined,HOLDOUT,sector,-0.0360
+ETF 23,F5 boosted trees,design,bond,-0.0745
+ETF 23,F5 boosted trees,design,commodity,-0.0457
+ETF 23,F5 boosted trees,design,equity index,-0.1056
+ETF 23,F5 boosted trees,design,real estate,-0.1467
+ETF 23,F5 boosted trees,design,sector,-0.1112
+ETF 23,F5 boosted trees,HOLDOUT,bond,-0.0036
+ETF 23,F5 boosted trees,HOLDOUT,commodity,-0.0875
+ETF 23,F5 boosted trees,HOLDOUT,equity index,-0.0771
+ETF 23,F5 boosted trees,HOLDOUT,real estate,-0.0020
+ETF 23,F5 boosted trees,HOLDOUT,sector,-0.0701

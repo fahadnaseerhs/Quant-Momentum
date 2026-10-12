@@ -1,0 +1,4 @@
+strategy,cum_ret,ann_ret,ann_vol,sharpe,max_dd,win_rate,n_days
+linear_oos_top5,4.7819,0.6834,0.5041,1.3557,-0.5472,0.5192,1121
+baseline_vsmom21d_top5,6.3522,0.6463,0.3195,2.0230,-0.2503,0.5397,1121
+SPY,0.8066,0.1590,0.1711,0.9293,-0.1988,0.5397,1121

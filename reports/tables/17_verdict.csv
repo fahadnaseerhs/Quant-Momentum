@@ -1,0 +1,6 @@
+,pass
+asset bad case (1 in 20),True
+asset good case (1 in 20),False
+asset typical range (2 in 3),False
+expected shortfall,False
+plan bad month (all profiles),True

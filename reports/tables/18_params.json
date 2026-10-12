@@ -1,0 +1,20 @@
+{
+  "params": {
+    "PROJECT 20": {
+      "k_typ": 1.0,
+      "k_es": 1.1148218429674697,
+      "drift_now": 0.17937476550115428
+    },
+    "ETF 23": {
+      "k_typ": 1.04,
+      "k_es": 1.0250251644571156,
+      "drift_now": 0.2521095659514722
+    }
+  },
+  "verdict": {
+    "bad case (with drift)": true,
+    "good case": false,
+    "typical range": true,
+    "expected shortfall": false
+  }
+}

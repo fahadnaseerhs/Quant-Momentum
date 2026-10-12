@@ -1,0 +1,9 @@
+universe,book,holdout share of months worse than predicted 1-in-20,n months checked,avg invested
+PROJECT 20,BALANCED,0.0323,558,1.0000
+PROJECT 20,CAREFUL,0.0376,558,0.6135
+PROJECT 20,BOLD,0.0358,558,1.0000
+PROJECT 20,equal risk per ASSET (old split),0.0502,558,1.0000
+ETF 23 (no hindsight),BALANCED,0.0663,558,1.0000
+ETF 23 (no hindsight),CAREFUL,0.0717,558,0.8763
+ETF 23 (no hindsight),BOLD,0.0699,558,1.0000
+ETF 23 (no hindsight),equal risk per ASSET (old split),0.0735,558,1.0000

@@ -1,0 +1,5 @@
+universe,period,asset_months,bad_rate_pooled,assets_pass_kupiec_bad,assets_pass_indep_bad,good_rate_pooled,assets_pass_kupiec_good,typical_inside_pooled,typical_binom_p,es_ratio,es_ratio_lo90,es_ratio_hi90
+PROJECT 20,full,4348,0.0458,0.9000,1.0000,0.0768,0.7000,0.6401,0.0002,1.0664,1.0218,1.1107
+PROJECT 20,HOLDOUT,2413,0.0472,0.9500,1.0000,0.0808,0.7000,0.6291,0.0001,1.0374,0.9783,1.0989
+ETF 23,full,6117,0.0383,0.6957,1.0000,0.1081,0.1739,0.6060,0.0000,1.0157,0.9853,1.0486
+ETF 23,HOLDOUT,2967,0.0391,0.8696,1.0000,0.1200,0.2174,0.5945,0.0000,1.0235,0.9752,1.0756

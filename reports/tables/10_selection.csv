@@ -1,0 +1,10 @@
+,value,design_sharpe
+"k_grid (trend_model, 10bps)",1.0000,0.1881
+"k_grid (trend_model, 10bps)",5.0000,0.5215
+"k_grid (trend_model, 10bps)",21.0000,0.2994
+"a_grid (combined, k*)",0.0000,0.9365
+"a_grid (combined, k*)",0.1000,0.9633
+"a_grid (combined, k*)",0.2000,0.9832
+"a_grid (combined, k*)",0.3000,0.9955
+"a_grid (combined, k*)",0.4000,0.9945
+"a_grid (combined, k*)",0.5000,0.9732
