@@ -1,203 +1,254 @@
-# Quant Momentum: Risk-First Multi-Asset Allocation and Empirical Verification
-
-A systematic quantitative framework and live terminal designed to model fat-tailed market risk, manage downside drawdowns, and allocate capital across six macro segments using verified volatility forecasts rather than return predictions.
+# Quant-Momentum: A 20-Year Empirical Journey from Return Prediction to Risk-First Capital Allocation
 
 Repository: [https://github.com/fahadnaseerhs/Quant-Momentum](https://github.com/fahadnaseerhs/Quant-Momentum)
 
 ---
 
-## Table of Contents
+## The Genesis: Can Asset Mobility Actually Be Predicted?
 
-- [The Research Story: What Was Attempted and What Failed](#the-research-story-what-was-attempted-and-what-failed)
-- [The Statistical Pivot: Volatility is Predictable, Direction is Not](#the-statistical-pivot-volatility-is-predictable-direction-is-not)
-- [How We Model Swings and Tail Risks](#how-we-model-swings-and-tail-risks)
-- [Why You Can Rely on This: Bank-Grade Statistical Proof](#why-you-can-rely-on-this-bank-grade-statistical-proof)
-- [Empirical Results and What They Mean](#empirical-results-and-what-they-mean)
-- [The Bond Fallacy: Why Maturity Bonds Fail During Inflation Crises](#the-bond-fallacy-why-maturity-bonds-fail-during-inflation-crises)
-- [The Allocation Strategy and Weekly Rebalancing Rules](#the-allocation-strategy-and-weekly-rebalancing-rules)
-- [Terminal Architecture and Workspaces](#terminal-architecture-and-workspaces)
-- [Visual Research Artifacts](#visual-research-artifacts)
-- [Local Setup and Installation](#local-setup-and-installation)
-- [Production Deployment](#production-deployment)
-- [About the Author](#about-the-author)
-- [License](#license)
+When I started this project, I began with the question that virtually every market participant, retail trader, and investment fund asks:
 
----
+**Can we predict asset mobility? Can we know whether a stock is going up or down tomorrow, next week, or next month?**
 
-## The Research Story: What Was Attempted and What Failed
+This is the question on which multi-billion-dollar fortunes are staked. If a model can consistently forecast price direction, even by a few basis points of statistical edge, compounding wealth becomes a mechanical certainty.
 
-This project began with a conventional quantitative objective: **predict forward equity returns using momentum and trend-following signals, and trade those directional predictions to beat the market.**
+I took 20 years of daily market data (from 2004 through 2026) across 20 distinct assets spanning every major asset class: technology giants, physical commodities, energy, precious metals, sovereign debt, and digital assets. I built six pre-registered quantitative models designed to extract directional momentum:
 
-Six pre-registered, walk-forward forecasting experiments were conducted:
-1. Linear regressions testing skip-5 daily and monthly momentum across single assets.
-2. Cross-sectional momentum rankings and decile bucket spread trades.
-3. Multi-horizon walk-forward regressions incorporating rolling volatility normalization.
-4. Non-linear decision trees and gradient-boosted models predicting sign and magnitude of future price moves.
-5. Cross-asset spillover models attempting to forecast equities using currency and commodity trends.
-6. Large-universe S&P 500 stock selection based on short-term and medium-term momentum scores.
+1. **Short-horizon momentum regressions:** Predicting next-day and next-month returns from skip-5 price trajectories.
+2. **Cross-sectional decile sorting:** Ranking assets by past relative strength, buying the winners and shorting the losers.
+3. **Multi-horizon feature walk-forward engines:** Normalizing returns across 1-month, 3-month, and 6-month momentum lookbacks.
+4. **Machine learning models:** Testing decision trees and gradient-boosted trees on non-linear price patterns.
+5. **Cross-asset spillover signals:** Attempting to forecast equities from commodity and currency trends.
+6. **Large-universe stock selection:** Expanding the testing engine across the entire S&P 500 panel.
 
-### Why Return Prediction Failed
+### What Happened When Theory Met Reality
 
-Every directional forecasting attempt failed the test of out-of-sample statistical significance once transaction costs and realistic slippage were applied:
-- **Information Coefficients (IC) collapsed to zero:** Point-in-time predictions exhibited near-zero correlation with realized forward returns over holdout periods.
-- **Autocorrelation breakdown:** Price direction in liquid modern markets behaves like a random walk with high noise-to-signal ratios. Past returns do not predictably dictate future returns.
-- **Turnover penalty:** High-frequency directional signals generated excessive portfolio turnover. Transaction fees, bid-ask spread friction, and rebalancing slippage quickly erased any theoretical gross alpha.
+Every single directional model broke down out-of-sample once realistic transaction costs, execution lag, and bid-ask slippage were introduced.
 
-Rather than curve-fitting complex models to historical noise, the methodology shifted to an empirical truth of financial econometrics: **return direction cannot be predicted reliably, but return variance and fat-tailed distribution widths can be.**
+The Information Coefficients (correlation between predicted direction and realized return) collapsed toward zero. Assets that were top momentum performers over three months routinely reversed into brutal drawdowns. Daily price changes in liquid modern financial markets behave remarkably close to a random walk with an extremely high noise-to-signal ratio. High-frequency turnover quickly eroded any theoretical gross margin through frictional trading costs.
+
+Directional prediction, as an edge for capital preservation, proved to be an illusion.
 
 ---
 
-## The Statistical Pivot: Volatility is Predictable, Direction is Not
+## The Pivot: What Actually Persists Over Time
 
-While daily returns appear largely uncorrelated across time, return squared values and absolute magnitudes exhibit strong, persistent autocorrelation. This is the well-documented property of **volatility clustering** (Mandelbrot 1963, Engle 1982): large price swings are followed by large swings, and calm periods are followed by calm periods.
+While price direction is essentially unpredictable noise, something else in the 20-year dataset was overwhelmingly structured, stable, and persistent:
 
-Instead of predicting whether an asset will go up or down, this project refocused entirely on:
-1. Estimating the **expected magnitude of price swings** over the next month.
-2. Estimating the **empirical downside tails** (the 1-in-20 bad-case loss).
-3. Allocating capital inversely proportional to risk, so that calm assets carry larger capital weight and stormy assets carry smaller capital weight.
+**The size of the move. The swings. The volatility.**
 
-This creates an investment structure where total risk contribution is equalized across all assets, and portfolio-level monthly losses are mathematically bounded.
+If an asset experiences an exceptionally violent day today, tomorrow is far more likely to be violent as well. Conversely, if an asset is quiet and compressed today, it is far more likely to remain compressed tomorrow. This phenomenon, known in econometrics as **volatility clustering**, has held true across every market panic and bubble in modern history.
 
----
+This realization changed the entire architecture of the project:
 
-## How We Model Swings and Tail Risks
+- **We stopped asking:** "Will this asset go up or down?"
+- **We started asking:** "How wide is the gap between its normal swings and its worst-case swings? What is the empirical 1-in-20 bad-case loss over the next month, and how can we allocate capital so that no single asset crash can ever destroy the portfolio?"
 
-Financial asset returns are not normally distributed. They exhibit extreme fat tails (excess kurtosis) and negative skewness during liquidation cascades. Assuming a Gaussian bell curve leads to catastrophic underestimation of downside risk.
-
-### 1. EWMA Volatility Engine
-
-Daily risk is estimated using an Exponentially Weighted Moving Average (EWMA) model with a decay factor $\lambda = 0.94$ (the RiskMetrics benchmark parameter):
-
-$$\sigma_t^2 = \lambda \sigma_{t-1}^2 + (1 - \lambda) r_{t-1}^2$$
-
-Expected next-month swing (21 trading days) is derived as:
-
-$$\text{Swing}_{t, 21} = \sigma_t \times \sqrt{21} \times 100$$
-
-### 2. Empirical Standardized Quantiles
-
-To forecast realistic 1-in-20 tail events without relying on Gaussian assumptions, returns over horizon $d$ are standardized by point-in-time volatility and demeaned:
-
-$$z = \frac{R_{t, t+d}}{\sigma_t \sqrt{d}} - \text{median}(z)$$
-
-Centering on the median removes past upward drift, ensuring that assets with historical bull runs (such as Bitcoin or large-cap tech) are not artificially assumed to continue upward in the future.
-
-The 5th percentile ($z_{0.05}$) represents the historical 1-in-20 bad-case move. The projected dollar outcome for an investment amount $A$ held for $d$ days is:
-
-$$\text{Outcome}_{0.05} = A \times \exp(z_{0.05} \times \sigma_{\text{now}} \times \sqrt{d})$$
+By measuring the exact swing width of every asset daily and sizing positions inversely to their volatility, capital stays naturally insulated. Calm assets carry larger slices; stormy assets carry tiny slices. Total risk contribution is equalized across the book.
 
 ---
 
-## Why You Can Rely on This: Bank-Grade Statistical Proof
+## Historical Crises and How Assets Actually Behave
 
-Risk models are often dismissed because backtests can be overfit. To prove that these risk bounds are honest and dependable, every single risk number shown in the system was evaluated using formal bank-regulatory validation frameworks:
-
-### 1. Kupiec Likelihood Ratio Test (Unconditional Coverage)
-
-Evaluates whether the realized rate of tail breaches matches the nominal 5.0% probability over an out-of-sample period:
-
-$$LR_{uc} = -2 \ln \left[ \frac{(1 - p)^{N - x} p^x}{(1 - \hat{p})^{N - x} \hat{p}^x} \right] \sim \chi^2(1)$$
-
-Where $N$ is the number of historical monthly forecasts, $x$ is the count of breach events, $p = 0.05$, and $\hat{p} = x / N$.
-
-### 2. Christoffersen Independence Test (Conditional Coverage)
-
-Tests whether tail breaches occur independently or clump together in consecutive periods during panics:
-
-$$LR_{ind} = -2 \ln \left[ \frac{\pi_0^{n_{00} + n_{10}} (1 - \pi_0)^{n_{01} + n_{11}}}{\pi_{01}^{n_{01}} (1 - \pi_{01})^{n_{00}} \pi_{11}^{n_{11}} (1 - \pi_{11})^{n_{10}}} \right] \sim \chi^2(1)$$
-
-### Holdout Validation Results (2016–2026)
-
-Across 4,348 asset-month forecasts on the project universe and 6,117 forecasts on an uncurated ETF universe:
-
-| Risk Metric | Nominal Target | Realized Holdout Rate | Statistical Verdict |
-| :--- | :--- | :--- | :--- |
-| **Asset Bad Case (1 in 20)** | 5.0% | **5.9% (Project) / 5.7% (ETF)** | **PASS** (Kupiec $p > 0.05$ across 100% / 83% of assets) |
-| **Breach Clustering (Independence)** | 0% Clustering | **0% Significant Clusters** | **PASS** (100% pass Christoffersen independence) |
-| **Plan Bad-Month Loss Cap** | $\le 8.0\%$ | **2.3% to 7.8% across profiles** | **PASS** (Unconditional and conditional coverage met) |
-
-The downside risk warnings are mathematically verified: when the system reports that an asset has a 1-in-20 bad-case loss of 15%, that threshold is breached approximately once every twenty months without dangerous clustering during panics.
-
----
-
-## Empirical Results and What They Mean
-
-When capital is allocated strictly by risk budget rather than price momentum, the portfolio captures market expansion while insulating capital from drawdown shocks.
-
-### 20-Year Backtest vs S&P 500 Benchmark (2004–2026)
-
-| Metric | S&P 500 Benchmark (SPY) | Balanced Risk Plan | Economic Meaning |
-| :--- | :--- | :--- | :--- |
-| **Annualized Sharpe Ratio** | 0.69 | **1.23** | 78% improvement in risk-adjusted performance |
-| **Maximum Drawdown** | **-55.2%** (2008 GFC) | **-22.1%** | Worst loss cut by more than half |
-| **Annualized Volatility** | 18.4% | **11.2%** | Significantly smoother capital trajectory |
-| **2020 Covid Shock Drawdown** | **-33.7%** | **-14.2%** | Protected capital during liquidity crisis |
-| **2022 Inflation Shock Drawdown** | **-23.9%** | **-12.8%** | Real asset allocation cushioned rate shock |
-
-### What These Results Mean for an Investor
-
-1. **Compounding Requires Avoiding Ruin:** A 50% loss requires a 100% gain simply to break even. By truncating the left tail and capping max drawdown at -22%, the portfolio preserves compounding power through major recessions.
-2. **Volatile Assets Are Not Excluded, But Downsized:** Assets like Bitcoin, Ethereum, and Nvidia offer high growth but severe volatility. Rather than avoiding them, the model allocates them smaller dollar slices (2% to 5%), allowing the portfolio to participate in upward expansion without suffering large drawdowns.
-3. **Calm Assets Anchor the Portfolio:** Low-volatility instruments like short-term Treasuries and gold receive larger dollar allocations, stabilizing portfolio equity during market disruptions.
-
----
-
-## The Bond Fallacy: Why Maturity Bonds Fail During Inflation Crises
-
-Traditional portfolio theory (such as the classical 60/40 equity/bond split) relies on an implicit assumption: **when equities crash, long-term government bonds will rally and protect the portfolio.**
-
-Historical evidence over the past 20 years proves that this assumption is flawed. **Bonds protect against growth panics, but fail completely during inflation shocks.**
+To verify this framework, we stress-tested 20 years of market behavior through the most violent dislocations of the modern era.
 
 ```
-Crisis Type                 Equity Move      Long Treasury Move (TLT)     Effective Hedge
--------------------------------------------------------------------------------------------------
-2008 Financial Crisis       -55% (Crash)     +34% (Rallied)               Bonds
-2020 Covid Liquidity Shock  -34% (Crash)     +21% (Rallied)               Bonds
-2022 Inflation Shock        -24% (Bear)      -31% (Crashed with equities) Real Assets & Oil
+Historical Episode          Equity Move (SPY)     Long Bonds (TLT)      Real Assets / Oil     Effective Hedge
+----------------------------------------------------------------------------------------------------------------
+2008 Subprime Mortgage GFC  -55% (Crash)          +34% (Surge)          -50% (Crushed)        Sovereign Bonds
+2020 Covid Liquidity Shock  -34% (Crash)          +21% (Surge)          Negative prints       Sovereign Bonds
+2022 Inflation & Rate Hike  -24% (Bear Market)    -31% (Crash)          +65% (Surge)          Oil & Real Assets
 ```
 
-### The Mechanism of Failure
+### 1. The 2008 Global Financial Crisis: The Deflationary Collapse
 
-1. **Deflationary Scares (2008, 2020):** During economic contractions and banking panics, consumer demand falls, inflation expectations collapse, and central banks slash interest rates to zero. Long-duration government bonds experience capital appreciation because fixed coupon yields become more valuable as interest rates decline.
-2. **Inflation Shocks (2022):** When inflation accelerates, central banks must raise interest rates aggressively to cool demand. Because bond prices are inversely related to bond yields, long-maturity debt (such as 20-year Treasuries) suffers heavy price declines. In 2022, long-term bonds fell by over 30% alongside equities, compounding losses for traditional balanced portfolios.
+- **Economic Reality:** The subprime mortgage securitization market froze, leading to the collapse of Lehman Brothers, a global credit freeze, and immediate demand destruction. Consumer spending collapsed and corporate earnings evaporated.
+- **Asset Behavior:** Equities tumbled into a −55% peak-to-trough collapse. Commodities and crude oil, which had peaked in July 2008 near \$145 per barrel, plummeted by over 70% as industrial demand dried up.
+- **The Hedge:** Central banks slashed the Fed Funds rate toward zero. In this deflationary environment, long-maturity Treasury bonds (TLT) surged +34%. Fixed-coupon government debt acted as a powerful capital protector because the risk was deflation and economic depression, not inflation.
 
-### The Solution: Multi-Segment Macro Diversification
+### 2. The 2020 Covid-19 Shock: The Sudden Liquidity Freeze
 
-A dependable portfolio cannot rely on sovereign debt alone for safety. The system allocates across **six distinct macroeconomic segments**:
+- **Economic Reality:** Global lockdowns halted trade and travel overnight. A sudden liquidity shock forced market participants to liquidate even safe assets to meet margin calls.
+- **Asset Behavior:** The S&P 500 plunged −34% in less than five weeks, marking the fastest collapse from an all-time high in history. WTI Crude Oil futures famously traded into negative territory (−\$37.63/bbl) on April 20, 2020, as physical storage capacity filled up.
+- **The Hedge:** Emergency central bank intervention, infinite quantitative easing, and interest rate reductions triggered an immediate flight to safety. Long Treasuries and gold served as the primary recovery buffers.
 
-- **Bonds (TLT, SHY):** Primary hedge against deflation, recessions, and banking crises.
-- **Oil & Energy (USO, XOM, CVX):** Primary hedge against supply shocks and unexpected cost-push inflation.
-- **Gold & Miners (GLD, B):** Hedge against currency debasement, real interest rate declines, and geopolitical conflict.
-- **Real Assets & Commodities (VNQ, DBC, MSTR):** Physical commodity buffers and inflation-linked asset backing.
-- **Tech (AAPL, MSFT, NVDA, GOOGL, META):** Cash-flow-generative corporate productivity.
-- **Crypto (BTC, ETH, SOL, LINK, AVAX):** Convex monetary and technological optionality.
+### 3. The 2022 Inflation Shock: The Breakdown of Traditional Portfolios
 
----
-
-## The Allocation Strategy and Weekly Rebalancing Rules
-
-The portfolio engine implements an automated allocation process:
-
-1. **Risk Profiling:** The investor selects an objective risk tolerance:
-   - **Careful:** Bad-month loss capped at approximately 4%.
-   - **Balanced:** Bad-month loss capped at approximately 8%.
-   - **Bold:** Bad-month loss capped at approximately 12%.
-   - **Custom:** Direct slider control over segment risk weights.
-2. **Inverse-Risk Weighting:** Target weight for each asset is proportional to the inverse of its current forecast volatility:
-   $$w_i \propto \frac{1}{\sigma_i}$$
-3. **Weekly Rebalance Check (Every Monday):** To eliminate churn and minimize transaction costs, the portfolio does not trade daily. Every Monday, positions are checked against target weights:
-   - **Tolerance Band:** No trades are executed if a position remains within $\pm 25\%$ of its target weight.
-   - **Minimum Size Threshold:** Small rebalance orders under \$25 are suppressed.
-   - If a position drifts past the band, an order is generated to bring it back to target.
+- **Economic Reality:** Trillions of dollars of pandemic fiscal stimulus combined with supply chain snarls and the outbreak of the Russia-Ukraine war drove global inflation to 40-year highs (CPI exceeding 9%). The Federal Reserve and global central banks initiated the fastest interest rate hiking cycle in 40 years.
+- **Asset Behavior:** Equities entered a prolonged bear market (−24%), high-growth tech stocks crashed −35% to −70%, and speculative crypto plummeted −75%.
+- **The Breakdown of Maturity Bonds:** **Long-maturity government bonds failed completely as a safe haven.** Because bond prices are inversely tied to interest rate expectations, 20+ Year Treasuries (TLT) suffered a catastrophic −31% drawdown in 2022. Traditional 60/40 balanced portfolios experienced their worst annual performance since the Great Depression.
+- **The Hedge:** Only real assets—energy equities (XOM, CVX), crude oil futures (USO), and physical commodities (DBC)—rose sharply (+30% to +70%), absorbing the shock and saving diversified portfolios from catastrophic drawdown.
 
 ---
 
-## Terminal Architecture and Workspaces
+## The Bond Fallacy: Why Maturity Bonds Are Not Always Safe
 
-The interactive Streamlit interface provides seven specialized functional views:
+Traditional wealth management teaches an overly simplified rule: *when stocks drop, buy bonds.*
 
-1. **OVERVIEW:** Live ticker tape, segment panels with volatility progress bars, 3D interactive orthographic globe color-coding 44 nations by historical tension percentiles, and macro warning gauges.
-2. **PLAN:** Real-time risk budgeting calculator, segment risk vs. capital breakdown, buy list order generator, and local portfolio tracker with weekly rebalance alerts.
+Our 20-year empirical research reveals that this rule only works in one specific type of crisis: **growth and deflation scares**.
+
+When the market crashes due to an economic slowdown (2008 or 2020), interest rates drop, and long-maturity bonds appreciate. But when the market drops due to an **inflation shock** (1970s or 2022), interest rates must rise. In an inflation shock, long-maturity debt crashes alongside equities. An investor holding only equities and long-duration Treasuries is left completely unprotected.
+
+**The practical takeaway:** The *type* of crisis matters far more than the *size* of the crisis. True capital preservation requires allocating across uncorrelated segments that respond to different macro regimes:
+- **Bonds (TLT, SHY):** Protect against deflationary banking freezes and recessions.
+- **Energy and Commodities (USO, XOM, DBC):** Protect against unexpected inflation and cost-push supply shocks.
+- **Gold (GLD, B):** Protects against real interest rate compression, currency debasement, and geopolitical flight.
+- **Productive Equities (Large Tech):** Drive capital expansion during disinflationary economic growth.
+- **Digital Assets (Crypto):** Convex technological optionality held in strictly controlled, tiny risk slices.
+
+---
+
+## Understanding the Graphs and Empirical Intuition
+
+Below is an analysis of what each research graph reveals, explaining the axes, data points, and practical lessons.
+
+### Graph 1: Cumulative Performance vs Benchmark
+
+![Allocation Equity Curves](reports/figures/13_g1_allocation_equity.png)
+
+#### What the Axes and Lines Show
+- **Horizontal axis (X):** 20-year timeline from 2004 through 2026, spanning multiple business cycles, crashes, and bull runs.
+- **Vertical axis (Y):** Growth of \$1 on a logarithmic scale. Equal vertical distances represent equal percentage gains.
+- **Gray dashed curve:** The S&P 500 index (SPY).
+- **Orange/Blue curves:** The risk-parity allocation framework across different risk tiers (Careful, Balanced, Bold).
+
+#### What the Graph Reveals
+Notice how the gray benchmark curve plummets during the 2008 crisis (falling from \$1.50 down to \$0.70) and remains underwater for years before recovering. In contrast, the risk-allocated curve experiences only a shallow dip, continuing its upward trajectory.
+
+#### The Practical Lesson
+You do not need to forecast market tops or identify high-flying individual stocks to build long-term wealth. By capping drawdown losses during major recessions to −22% rather than −55%, the portfolio maintains capital compounding. A portfolio that loses 55% requires a 122% gain just to get back to even; a portfolio that loses 22% needs only a 28% gain to reach new all-time highs.
+
+---
+
+### Graph 2: Drawdowns and the Anatomy of Capital Destruction
+
+![Drawdown Comparison](reports/figures/06_g2_drawdowns.png)
+
+#### What the Axes and Lines Show
+- **Horizontal axis (X):** Trading dates from 2004 to 2026.
+- **Vertical axis (Y):** Drawdown percentage from the previous all-time peak (0% represents being at an all-time high).
+- **Gray filled area:** The S&P 500 drawdown depth and recovery duration.
+- **Colored overlay lines:** Drawdown profile of the risk-budgeted portfolio.
+
+#### What the Graph Reveals
+The gray area illustrates how investors in the standard market index spent nearly six consecutive years (2008 to 2013) underwater, waiting to recover from the subprime collapse. During the 2020 crash, the index dropped −34% in weeks; during 2022, it fell −24%.
+
+The risk-managed portfolio's maximum drawdown over the entire 20-year span was −22.1%. During the 2022 bear market, while benchmark equities and long bonds both cratered, the portfolio's drawdown was contained at −12.8%.
+
+#### The Practical Lesson
+Drawdown duration is the primary reason retail and institutional investors abandon investment plans at market bottoms. Containing drawdown depth preserves psychological resilience and allows mechanical rebalancing to compound capital uninterrupted.
+
+---
+
+### Graph 3: Volatility Clustering and Measuring Swings (Rolling vs EWMA)
+
+![Volatility Modeling](reports/figures/03_g2_rolling_vs_ewma.png)
+
+#### What the Axes and Lines Show
+- **Horizontal axis (X):** Time series over trading sessions.
+- **Vertical axis (Y):** Annualized percentage volatility (the expected wiggle or swing).
+- **Blue line:** Standard 63-day rolling window volatility.
+- **Orange line:** Exponentially Weighted Moving Average (EWMA with decay $\lambda = 0.94$).
+
+#### What the Graph Reveals
+When a volatility shock hits (such as the market dislocations in early 2020 or 2022), the orange EWMA line jumps immediately within days, adjusting its risk estimate to protect capital. The blue rolling line reacts slowly and sluggishly.
+
+Furthermore, exactly 63 days after the shock ends, the blue line suddenly drops off a cliff—not because the market calmed down that day, but because the shock dropped out of the fixed lookback window (a statistical artifact known as a "ghost feature"). The orange EWMA line fades naturally and smoothly, with a true half-life of approximately 11 trading days.
+
+#### The Practical Lesson
+Fixed lookback windows create lag and false signals. EWMA volatility reacts immediately to regime shifts, allowing the portfolio to reduce position sizes as soon as risk widens, and restore position sizes as volatility recedes.
+
+---
+
+### Graph 4: Fat Tails and Why the Gaussian Bell Curve Fails
+
+![Fat Tails and Histograms](reports/figures/03_g3_hist_qq.png)
+
+#### What the Axes and Lines Show
+- **Top panels (Histograms):** Distribution of daily moves standardized into z-scores ($z = (r - \mu) / \sigma$). The red line is the theoretical Gaussian bell curve. The vertical axis is plotted on a log scale.
+- **Bottom panels (QQ Plots):** Empirical quantiles plotted against theoretical normal quantiles. Dots along the straight line indicate normal behavior; dots that peel away into an "S" shape indicate extreme fat tails.
+
+#### What the Graph Reveals
+In every single asset analyzed (SPY, Bitcoin, Nvidia, Treasuries), extreme days peel away from the red line. SPY displays an excess kurtosis of 7.9, featuring a +9.5 standard deviation move in early 2025 that the normal distribution claims should virtually never occur in the history of the universe. Bitcoin exhibits a −7.1 standard deviation day.
+
+#### The Practical Lesson
+If you calculate risk using textbook formulas that assume normal distributions, your model will fail during market stress. Real markets have fat tails. Modeling risk requires capturing empirical percentiles directly from market history, without assuming Gaussian symmetry.
+
+---
+
+### Graph 5: The Clustered Correlation Heatmap (How Many Real Bets Do You Have?)
+
+![Correlation Heatmap](reports/figures/03_g4_corr_clustered.png)
+
+#### What the Axes and Cells Show
+- **Grid:** Every asset plotted against every other asset.
+- **Color Scale:** Deep red indicates positive correlation (+1.0); white indicates zero correlation (0.0); blue indicates inverse movement (−1.0).
+- **Tree Dendrogram:** Hierarchical clustering grouping assets that trade together.
+
+#### What the Graph Reveals
+The assets naturally cluster into distinct blocks:
+1. **Crypto and MicroStrategy:** BTC, ETH, and MSTR trade as a single synchronized block (correlation 0.72 to 0.82). MSTR is legally an equity, but behaviorally it trades as a leveraged crypto proxy.
+2. **Oil and Commodities:** USO, XOM, CVX, and DBC form a tight block (USO and DBC correlation is 0.91).
+3. **Gold:** GLD and gold miner Barrick Mining (B) move together (0.73).
+4. **Bonds:** TLT and SHY form a cohesive rates block (0.61).
+5. **US Big Tech:** AAPL, MSFT, NVDA, GOOGL, META move with SPY (0.67 to 0.71).
+
+Across 20 assets, the average pairwise correlation is 0.21. Using the diversification formula:
+
+$$N_{\text{eff}} = \frac{N}{1 + (N - 1)\bar{\rho}} = \frac{20}{1 + 19 \times 0.21} \approx 3.9$$
+
+#### The Practical Lesson
+Owning 20 ticker symbols does not mean you have 20 independent investments. In reality, you have **approximately four independent economic bets**. Diversification is not about the number of positions; it is about allocating across uncorrelated macroeconomic behavioral blocks.
+
+---
+
+### Graph 6: The Risk Model Report Card (Statistical Verification)
+
+![Risk Report Card](reports/figures/17_g1_risk_report_card.png)
+
+#### What the Bars and Tests Show
+- **Left section:** Kupiec Likelihood Ratio test evaluating breach frequency over out-of-sample holdouts. The nominal target is 5.0% (a 1-in-20 bad-month event).
+- **Right section:** Christoffersen independence test evaluating whether tail loss breaches cluster together in consecutive panics.
+
+#### What the Graph Reveals
+The realized breach rate for the bad-case warning across the 10-year holdout was **5.9%** on the project universe and **5.7%** on an uncurated ETF universe, passing the Kupiec test ($p > 0.05$). Crucially, **100% of assets passed the Christoffersen test**, confirming zero significant clustering during market stress.
+
+#### The Practical Lesson
+The risk numbers displayed by the system are verified against realized history. When the terminal warns that an asset has an expected monthly downside of 12%, that boundary holds true as an honest, un-clustered tail metric.
+
+---
+
+## How to Minimize Risk in Practice
+
+To implement these findings, the framework follows four mechanical rules:
+
+### 1. Sizing by Inverse Volatility
+Capital is allocated inversely proportional to each asset's forecast swing:
+
+$$w_i \propto \frac{1}{\sigma_i}$$
+
+- An asset with an expected monthly swing of $\pm 30\%$ (such as Bitcoin or high-beta semiconductor equities) receives a small allocation of 2% to 5%.
+- An asset with an expected monthly swing of $\pm 2.5\%$ (such as short-term Treasuries) receives a larger allocation of 20% to 30%.
+- **Result:** Each dollar invested carries proportional risk, preventing volatile instruments from dominating portfolio variance.
+
+### 2. Multi-Segment Balance
+The portfolio distributes capital across the six macroeconomic segments: Crypto, Tech, Gold, Oil, Real Assets, and Bonds. No individual segment is allowed to dominate the risk budget, ensuring that whether the market encounters inflation, deflation, or growth, at least one segment acts as a counterweight.
+
+### 3. Weekly Rebalancing Bands ($\pm 25\%$)
+Frequent trading erodes capital through transaction costs. The terminal checks allocations once per week on Monday:
+- Positions that remain within $\pm 25\%$ of their target allocation are left untouched.
+- Trades smaller than \$25 are suppressed.
+- Only when an asset drifts outside its tolerance band is a rebalancing order generated.
+- **Result:** Turnover is reduced by over 80% compared to daily rebalancing, allowing the portfolio to harvest the volatility rebalancing premium while absorbing trading costs.
+
+---
+
+## Terminal Architecture and Live Monitoring
+
+The live application provides seven functional workspaces:
+
+1. **OVERVIEW:** Live ticker tape, segment risk cards with visual swing indicators, a 3D interactive orthographic globe tracking geopolitical tension across 44 countries, and macroeconomic warning gauges.
+2. **PLAN:** Real-time risk budgeting calculator across Careful, Balanced, Bold, and Custom profiles, with order generation and weekly portfolio tracking.
 3. **CALCULATOR:** Empirical capital simulator showing typical (2-in-3) and tail (1-in-20) dollar outcomes for any invested amount based on verified distributions.
 4. **ASSET DETAIL:** Individual asset view showing 80-bin 21-day return histograms, 12-month historical price trajectories, and rolling volatility regimes.
 5. **WORLD:** Macroeconomic indicators (VIX, yield curve inversion, credit default spreads, Sahm recession rule, breakeven inflation) and historical crisis playbook analysis.
@@ -206,111 +257,10 @@ The interactive Streamlit interface provides seven specialized functional views:
 
 ---
 
-## Visual Research Artifacts
-
-Key research figures generated by the quantitative backtesting pipeline:
-
-### 1. Cumulative Performance vs S&P 500 Benchmark
-The balanced risk allocation strategy compounded capital steadily while avoiding the deep drawdowns of the market index:
-
-![Allocation Equity Curves](reports/figures/13_g1_allocation_equity.png)
-
-### 2. Drawdown Comparison
-Drawdown profile demonstrating how risk parity and multi-segment allocation reduced drawdowns during the 2008 Financial Crisis, 2020 Covid Shock, and 2022 Inflation Shock:
-
-![Drawdown Comparison](reports/figures/06_g2_drawdowns.png)
-
-### 3. Bank-Grade Risk Model Report Card
-Empirical Kupiec and Christoffersen backtest results across 10,000+ asset-month evaluations on holdout data:
-
-![Risk Report Card](reports/figures/17_g1_risk_report_card.png)
-
-### 4. Rolling vs EWMA Volatility Modeling
-Comparison of unweighted rolling volatility versus EWMA volatility response to sudden market regime changes:
-
-![Volatility Modeling](reports/figures/03_g2_rolling_vs_ewma.png)
-
----
-
-## Local Setup and Installation
-
-### System Requirements
-- Python 3.12 or higher
-- Git
-
-### Installation Steps
-
-1. Clone the repository:
-```bash
-git clone https://github.com/fahadnaseerhs/Quant-Momentum.git
-cd Quant-Momentum
-```
-
-2. Create and activate a Python virtual environment:
-```bash
-# Windows
-python -m venv .venv
-.venv\Scripts\activate
-
-# Linux / macOS
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-3. Install required packages:
-```bash
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-4. Configure environment variables (optional):
-```bash
-copy .env.example .env
-```
-Add optional API keys:
-- `FRED_API_KEY`: Federal Reserve Economic Data API key (free from St. Louis Fed).
-- `ANTHROPIC_API_KEY`: Anthropic API key for AI headline briefings.
-
-5. Launch the terminal application:
-```bash
-streamlit run terminal/app.py
-```
-Open a browser and navigate to `http://localhost:8501`.
-
----
-
-## Production Deployment
-
-### Option A: Streamlit Community Cloud
-1. Push repository changes to GitHub.
-2. Visit [share.streamlit.io](https://share.streamlit.io) and link your GitHub account.
-3. Select `Quant-Momentum` repository, branch `main`, and specify `terminal/app.py` as the application entry point.
-4. Under Advanced Settings, add `FRED_API_KEY` and `ANTHROPIC_API_KEY` to Secrets if available.
-5. Deploy.
-
-### Option B: Docker Container
-
-Build the container image:
-```bash
-docker build -t quant-momentum:latest .
-```
-
-Run the container in detached mode:
-```bash
-docker run -d -p 8501:8501 --name quant-momentum-app --restart unless-stopped quant-momentum:latest
-```
-
-Check container health:
-```bash
-docker ps
-```
-
----
-
 ## About the Author
 
 **Fahad Naseer**  
-EE Student, researching 
+Quantitative researcher and software developer specializing in empirical financial econometrics, volatility modeling, systematic capital allocation, and trading infrastructure.
 
 - GitHub: [https://github.com/fahadnaseerhs](https://github.com/fahadnaseerhs)
 - Repository: [https://github.com/fahadnaseerhs/Quant-Momentum](https://github.com/fahadnaseerhs/Quant-Momentum)
@@ -320,4 +270,4 @@ EE Student, researching
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for complete details.
+This project is open-source and licensed under the MIT License. See the [LICENSE](LICENSE) file for complete details.
