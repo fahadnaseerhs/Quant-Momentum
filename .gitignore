@@ -28,6 +28,10 @@ desktop.ini
 .vscode/
 .idea/
 
+# Microsoft Office temporary & lock files
+~$*
+*.tmp
+
 # QM Terminal secrets, local portfolio & caches
 .env
 .streamlit/secrets.toml
